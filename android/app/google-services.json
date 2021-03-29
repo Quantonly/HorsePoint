@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "659762528538",
+    "project_id": "horsepoint-11740",
+    "storage_bucket": "horsepoint-11740.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659762528538:android:7f2e46feaac1b3db8d2ca3",
+        "android_client_info": {
+          "package_name": "com.quantonly.horse_point"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "659762528538-ht8cvadao2qn020htf0b9tgqrohlugtv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2La2pVh_EAVdqc5wkgMme36-8dAXo0eI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "659762528538-ht8cvadao2qn020htf0b9tgqrohlugtv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
