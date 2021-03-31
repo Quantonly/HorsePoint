@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
@@ -11,7 +13,7 @@ class AuthenticationService {
 
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
 
-  Future<String> signInGoogle() async {
+  Future<Map<String, dynamic>> signInGoogle() async {
     try {
       final user = await _googleSignIn.signIn();
       if (user != null) {
@@ -23,41 +25,77 @@ class AuthenticationService {
         );
         await _firebaseAuth.signInWithCredential(credential);
       }
-      return "Signed in w/ google";
+      return {'success': 'Successfully logged in'};
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      if (e.code == 'account-exists-with-different-credential') return {'error': 'Account is already registered via another platform'};
+      if (e.code == 'user-disabled') return {'error': 'This account has been disabled'};
+      return {'error': 'Something went wrong'};
     }
   }
 
-  Future<String> signInFacebook() async {
+  Future<Map<String, dynamic>> signInFacebook() async {
     try {
       final result = await _facebookLogin.logIn(['email']);
       if(result.status == FacebookLoginStatus.loggedIn) {
         final token = result.accessToken.token;
+        final graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=picture&access_token=${token}'));
+        Map<String, dynamic> picture = jsonDecode(graphResponse.body);
+
         final credential = FacebookAuthProvider.credential(token);
         await _firebaseAuth.signInWithCredential(credential);
+        await _firebaseAuth.currentUser.updateProfile(photoURL: picture['picture']['data']['url']);
+        await _firebaseAuth.currentUser.reload();
       }
-      return "Signed in w/ facebook";
+      return {'success': 'Successfully logged in'};
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      if (e.code == 'account-exists-with-different-credential') return {'error': 'Account is already registered via another platform'};
+      if (e.code == 'user-disabled') return {'error': 'This account has been disabled'};
+      return {'error': 'Something went wrong'};
+    } catch (e) {
+      return {'error': 'Something went wrong'};
     }
   }
 
-  Future<String> signIn({String email, String password}) async {
+  Future<Map<String, dynamic>> signIn({String email, String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-      return "Signed in";
+      if (!_firebaseAuth.currentUser.emailVerified) {
+        signOut();
+        return {'error': 'Email is not verified'};
+      }
+      return {'success': 'Successfully logged in'};
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      if (e.code == 'user-disabled') return {'error': 'This account has been disabled'};
+      if (e.code == 'user-not-found') return {'error': 'Email not found'};
+      if (e.code == 'wrong-password') return {'error': 'Password is incorrect'};
+      return {'error': 'Something went wrong'};
     }
   }
 
-  Future<String> signUp({String email, String password}) async {
+  Future<Map<String, dynamic>> signUp({String firstName, String lastName, String email, String password}) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
-      return "Signed up";
+      if (_firebaseAuth.currentUser != null) {
+        String displayName = firstName + " " + lastName;
+        await _firebaseAuth.currentUser.updateProfile(displayName: displayName, photoURL: '/');
+        await _firebaseAuth.currentUser.sendEmailVerification();
+        signOut();
+        return {'success': 'Email vertification has been send'};
+      }
+      return {'error': 'Something went wrong'};
     } on FirebaseAuthException catch (e) {
-      return e.message;
+      if (e.code == 'email-already-in-use') return {'error': 'This email is already in use'};
+      return {'error': 'Something went wrong'};
+    }
+  }
+
+  Future<Map<String, dynamic>> forgotPassword({String email}) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return {'success': 'Forgot password email has been send'};
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') return {'error': 'Email not found'};
+      return {'error': 'Something went wrong'};
     }
   }
 

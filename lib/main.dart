@@ -6,7 +6,6 @@ import 'package:horse_point/pages/home.dart';
 import 'package:horse_point/pages/authentication/sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'dart:developer' as developer;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
