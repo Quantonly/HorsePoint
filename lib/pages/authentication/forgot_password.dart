@@ -18,15 +18,33 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController emailController = TextEditingController();
-  String error = "";
 
   final emailValidator = MultiValidator([
     RequiredValidator(errorText: 'Email is required'),
     EmailValidator(errorText: 'Invalid email address'),
   ]);
 
-  bool checkValidation() {
-    return _formKey.currentState.validate();
+  void resetPassword() async {
+    context
+        .read<AuthenticationService>()
+        .forgotPassword(
+          email: emailController.text.trim(),
+        )
+        .then((res) => {
+              if (res['error'] != null)
+                {
+                  Toast.show(res['error'], context,
+                      duration: Toast.LENGTH_LONG,
+                      backgroundColor: Colors.red,
+                      gravity: Toast.TOP)
+                }
+              else if (res['success'] != null)
+                {
+                  Toast.show(res['success'], context,
+                      duration: Toast.LENGTH_LONG, gravity: Toast.TOP),
+                  Navigator.pop(context, emailController.text.trim())
+                }
+            });
   }
 
   @override
@@ -34,7 +52,8 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
     return Scaffold(
       backgroundColor: utils.primaryColor,
       floatingActionButton: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 10, left: 10),
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).padding.top + 10, left: 10),
         child: Align(
           alignment: Alignment.topLeft,
           child: FloatingActionButton(
@@ -122,29 +141,8 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (checkValidation()) {
-                        context
-                            .read<AuthenticationService>()
-                            .forgotPassword(
-                              email: emailController.text.trim(),
-                            )
-                            .then((res) => {
-                                  if (res['error'] != null)
-                                    {
-                                      setState(() {
-                                        error = res['error'];
-                                      }),
-                                      Toast.show(error, context,
-                                          duration: Toast.LENGTH_LONG,
-                                          backgroundColor: Colors.red,
-                                          gravity: Toast.TOP)
-                                    }
-                                  else if (res['success'] != null)
-                                    {
-                                      //toast
-                                      Navigator.pop(context)
-                                    }
-                                });
+                      if (_formKey.currentState.validate()) {
+                        resetPassword();
                       }
                     },
                     child: Container(

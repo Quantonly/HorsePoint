@@ -24,6 +24,8 @@ dependencies:
   clippy_flutter: ^1.1.1
   form_field_validator: ^1.1.0
   toast: ^0.1.5
+  flutter_spinkit: ^4.1.2
+  overlay_container: ^0.0.5+1
 
 dev_dependencies:
   flutter_test:
