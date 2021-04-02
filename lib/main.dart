@@ -26,7 +26,8 @@ class HorsePointApp extends StatelessWidget {
         ),
         StreamProvider(
           initialData: null,
-          create: (context) => context.read<AuthenticationService>().authStateChanges,
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
         )
       ],
       child: MaterialApp(
@@ -45,9 +46,11 @@ class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
-    
-    if (firebaseUser != null && firebaseUser.emailVerified) {
-      return HomePage();
+
+    if (firebaseUser != null) {
+      if (firebaseUser.providerData[0].providerId == 'facebook.com')
+        return HomePage();
+      else if (firebaseUser.emailVerified) return HomePage();
     }
     return SignInPage();
   }

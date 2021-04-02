@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:horse_point/services/user.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
@@ -23,7 +26,10 @@ class AuthenticationService {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken
         );
-        await _firebaseAuth.signInWithCredential(credential);
+        UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
+        if (userCredential.additionalUserInfo.isNewUser) {
+          await UserService(uid: _firebaseAuth.currentUser.uid).createUserData(_firebaseAuth.currentUser.displayName, _firebaseAuth.currentUser.email, _firebaseAuth.currentUser.photoURL);
+        }
       }
       return {'success': 'Successfully logged in'};
     } on FirebaseAuthException catch (e) {
@@ -42,9 +48,12 @@ class AuthenticationService {
         Map<String, dynamic> picture = jsonDecode(graphResponse.body);
 
         final credential = FacebookAuthProvider.credential(token);
-        await _firebaseAuth.signInWithCredential(credential);
+        UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
         await _firebaseAuth.currentUser.updateProfile(photoURL: picture['picture']['data']['url']);
         await _firebaseAuth.currentUser.reload();
+        if (userCredential.additionalUserInfo.isNewUser) {
+          await UserService(uid: _firebaseAuth.currentUser.uid).createUserData(_firebaseAuth.currentUser.displayName, _firebaseAuth.currentUser.email, _firebaseAuth.currentUser.photoURL);
+        }
       }
       return {'success': 'Successfully logged in'};
     } on FirebaseAuthException catch (e) {
@@ -68,7 +77,6 @@ class AuthenticationService {
       if (e.code == 'user-disabled') return {'error': 'This account has been disabled'};
       if (e.code == 'user-not-found') return {'error': 'Email not found'};
       if (e.code == 'wrong-password') return {'error': 'Password is incorrect'};
-      print(e);
       return {'error': 'Something went wrong'};
     }
   }
@@ -80,6 +88,7 @@ class AuthenticationService {
         String displayName = firstName + " " + lastName;
         await _firebaseAuth.currentUser.updateProfile(displayName: displayName, photoURL: '/');
         await _firebaseAuth.currentUser.sendEmailVerification();
+        await UserService(uid: _firebaseAuth.currentUser.uid).createUserData(displayName, email, _firebaseAuth.currentUser.photoURL);
         signOut();
         return {'success': 'Email vertification has been send'};
       }

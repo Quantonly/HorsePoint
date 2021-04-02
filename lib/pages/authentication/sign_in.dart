@@ -33,9 +33,7 @@ class _SignInState extends State<SignInPage> {
   bool _loggingIn = false;
 
   void login(String method) async {
-    setState(() {
-      _loggingIn = !_loggingIn;
-    });
+    toggleOverlay();
     await new Future.delayed(const Duration(milliseconds: 500));
     switch (method) {
       case 'facebook':
@@ -72,9 +70,11 @@ class _SignInState extends State<SignInPage> {
   }
 
   void toggleOverlay() {
-    setState(() {
-      _loggingIn = !_loggingIn;
-    });
+    if (this.mounted) {
+      setState(() {
+        _loggingIn = !_loggingIn;
+      });
+    }
   }
 
   void passwordReset() async {

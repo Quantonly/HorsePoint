@@ -16,7 +16,6 @@ class HomePage extends StatelessWidget {
             Text("HOME"),
             RaisedButton(
               onPressed: () {
-                print(_firebaseAuth.currentUser.photoURL);
                 context.read<AuthenticationService>().signOut();
               },
               child: Text("Sign out"),
