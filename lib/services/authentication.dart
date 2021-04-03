@@ -44,8 +44,9 @@ class AuthenticationService {
       final result = await _facebookLogin.logIn(['email']);
       if(result.status == FacebookLoginStatus.loggedIn) {
         final token = result.accessToken.token;
-        final graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=picture&access_token=${token}'));
+        final graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=picture.type(large)&access_token=${token}'));
         Map<String, dynamic> picture = jsonDecode(graphResponse.body);
+        print(picture);
 
         final credential = FacebookAuthProvider.credential(token);
         UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);

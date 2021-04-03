@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:horse_point/services/authentication.dart';
-import 'package:horse_point/pages/home.dart';
+import 'package:horse_point/pages/dashboard.dart';
 import 'package:horse_point/pages/authentication/sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -35,6 +35,7 @@ class HorsePointApp extends StatelessWidget {
         title: 'Horse Point',
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          fontFamily: 'Nunito',
         ),
         home: AuthenticationWrapper(),
       ),
@@ -49,8 +50,8 @@ class AuthenticationWrapper extends StatelessWidget {
 
     if (firebaseUser != null) {
       if (firebaseUser.providerData[0].providerId == 'facebook.com')
-        return HomePage();
-      else if (firebaseUser.emailVerified) return HomePage();
+        return DashboardPage();
+      else if (firebaseUser.emailVerified) return DashboardPage();
     }
     return SignInPage();
   }

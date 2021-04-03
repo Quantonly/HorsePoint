@@ -118,7 +118,7 @@ class _SignInState extends State<SignInPage> {
                   Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(
-                        'Logging in',
+                        'Signing in',
                         style: TextStyle(color: Colors.white),
                       )),
                 ],

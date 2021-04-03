@@ -38,3 +38,9 @@ flutter:
     - assets/images/login_background.jpg
     - assets/logos/facebook_logo.png
     - assets/logos/google_logo.png
+    - assets/icons/
+  
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/NunitoSans-SemiBold.ttf
