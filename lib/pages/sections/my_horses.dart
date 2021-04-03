@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horse_point/services/app_localizations.dart';
 
 class MyHorsesPage extends StatefulWidget {
   final VoidCallback onSideBar;
@@ -29,7 +30,7 @@ class _MyHorsesState extends State<MyHorsesPage> {
               Container(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: Text(
-                  "My Horses",
+                  AppLocalizations.of(context).translate('my_horses'),
                   overflow: TextOverflow.visible,
                   style: TextStyle(
                     fontSize: 18,

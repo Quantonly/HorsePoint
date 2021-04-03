@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -31,11 +30,11 @@ class AuthenticationService {
           await UserService(uid: _firebaseAuth.currentUser.uid).createUserData(_firebaseAuth.currentUser.displayName, _firebaseAuth.currentUser.email, _firebaseAuth.currentUser.photoURL);
         }
       }
-      return {'success': 'Successfully logged in'};
+      return {'success': 'successfully_logged_in'};
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'account-exists-with-different-credential') return {'error': 'Account is already registered via another platform'};
-      if (e.code == 'user-disabled') return {'error': 'This account has been disabled'};
-      return {'error': 'Something went wrong'};
+      if (e.code == 'account-exists-with-different-credential') return {'error': 'account_registered_platform'};
+      if (e.code == 'user-disabled') return {'error': 'account_disabled'};
+      return {'error': 'something_went_wrong'};
     }
   }
 
@@ -56,13 +55,13 @@ class AuthenticationService {
           await UserService(uid: _firebaseAuth.currentUser.uid).createUserData(_firebaseAuth.currentUser.displayName, _firebaseAuth.currentUser.email, _firebaseAuth.currentUser.photoURL);
         }
       }
-      return {'success': 'Successfully logged in'};
+      return {'success': 'successfully_logged_in'};
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'account-exists-with-different-credential') return {'error': 'Account is already registered via another platform'};
-      if (e.code == 'user-disabled') return {'error': 'This account has been disabled'};
-      return {'error': 'Something went wrong'};
+      if (e.code == 'account-exists-with-different-credential') return {'error': 'account_registered_platform'};
+      if (e.code == 'user-disabled') return {'error': 'account_disabled'};
+      return {'error': 'something_went_wrong'};
     } catch (e) {
-      return {'error': 'Something went wrong'};
+      return {'error': 'something_went_wrong'};
     }
   }
 
@@ -71,14 +70,14 @@ class AuthenticationService {
       await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       if (!_firebaseAuth.currentUser.emailVerified) {
         signOut();
-        return {'error': 'Email is not verified', 'data': {email: email, password: password}};
+        return {'error': 'email_not_verified', 'data': {email: email, password: password}};
       }
-      return {'success': 'Successfully logged in'};
+      return {'success': 'successfully_logged_in'};
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-disabled') return {'error': 'This account has been disabled'};
-      if (e.code == 'user-not-found') return {'error': 'Email not found'};
-      if (e.code == 'wrong-password') return {'error': 'Password is incorrect'};
-      return {'error': 'Something went wrong'};
+      if (e.code == 'user-disabled') return {'error': 'account_disabled'};
+      if (e.code == 'user-not-found') return {'error': 'email_not_found'};
+      if (e.code == 'wrong-password') return {'error': 'password_incorrect'};
+      return {'error': 'something_went_wrong'};
     }
   }
 
@@ -91,22 +90,22 @@ class AuthenticationService {
         await _firebaseAuth.currentUser.sendEmailVerification();
         await UserService(uid: _firebaseAuth.currentUser.uid).createUserData(displayName, email, _firebaseAuth.currentUser.photoURL);
         signOut();
-        return {'success': 'Email vertification has been send'};
+        return {'success': 'email_vertification_send'};
       }
-      return {'error': 'Something went wrong'};
+      return {'error': 'something_went_wrong'};
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'email-already-in-use') return {'error': 'This email is already in use'};
-      return {'error': 'Something went wrong'};
+      if (e.code == 'email-already-in-use') return {'error': 'email_in_use'};
+      return {'error': 'something_went_wrong'};
     }
   }
 
   Future<Map<String, dynamic>> forgotPassword({String email}) async {
     try {
       await _firebaseAuth.sendPasswordResetEmail(email: email);
-      return {'success': 'Password reset email has been send'};
+      return {'success': 'password_reset_send'};
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') return {'error': 'Email not found'};
-      return {'error': 'Something went wrong'};
+      if (e.code == 'user-not-found') return {'error': 'email_not_found'};
+      return {'error': 'something_went_wrong'};
     }
   }
 

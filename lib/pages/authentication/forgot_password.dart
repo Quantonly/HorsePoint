@@ -7,6 +7,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:toast/toast.dart';
 
 import 'package:horse_point/services/authentication.dart';
+import 'package:horse_point/services/app_localizations.dart';
 import 'package:horse_point/utils.dart' as utils;
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -19,11 +20,6 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
 
   final TextEditingController emailController = TextEditingController();
 
-  final emailValidator = MultiValidator([
-    RequiredValidator(errorText: 'Email is required'),
-    EmailValidator(errorText: 'Invalid email address'),
-  ]);
-
   void resetPassword() async {
     context
         .read<AuthenticationService>()
@@ -33,14 +29,14 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
         .then((res) => {
               if (res['error'] != null)
                 {
-                  Toast.show(res['error'], context,
+                  Toast.show(AppLocalizations.of(context).translate(res['error']), context,
                       duration: Toast.LENGTH_LONG,
                       backgroundColor: Colors.red,
                       gravity: Toast.TOP)
                 }
               else if (res['success'] != null)
                 {
-                  Toast.show(res['success'], context,
+                  Toast.show(AppLocalizations.of(context).translate(res['success']), context,
                       duration: Toast.LENGTH_LONG, gravity: Toast.TOP),
                   Navigator.pop(context, emailController.text.trim())
                 }
@@ -110,7 +106,8 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                     transform: Matrix4.translationValues(0.0, -30.0, 0.0),
                     child: Center(
                       child: Text(
-                        'Forgot password',
+                        AppLocalizations.of(context)
+                            .translate('forgot_password_page'),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 28,
@@ -130,8 +127,16 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                       child: TextFormField(
                         controller: emailController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: utils.getTextFieldDecoration("Email"),
-                        validator: emailValidator,
+                        decoration: utils.getTextFieldDecoration(
+                            AppLocalizations.of(context).translate('email')),
+                        validator: MultiValidator([
+                          RequiredValidator(
+                              errorText: AppLocalizations.of(context)
+                                  .translate('email_required')),
+                          EmailValidator(
+                              errorText: AppLocalizations.of(context)
+                                  .translate('invalid_email')),
+                        ]),
                         keyboardType: TextInputType.emailAddress,
                         style: new TextStyle(
                           color: Colors.white,
@@ -157,7 +162,8 @@ class _ForgotPasswordState extends State<ForgotPasswordPage> {
                       ),
                       child: Center(
                         child: Text(
-                          "Reset password",
+                          AppLocalizations.of(context)
+                              .translate('reset_password'),
                           style: TextStyle(
                             color: Colors.black,
                           ),

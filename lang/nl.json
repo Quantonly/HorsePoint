@@ -1,0 +1,53 @@
+{
+    "sign_in": "Log in",
+    "signing_in": "Inloggen",
+    "invalid_email": "Ongeldig e-mailadres",
+    "required_password": "Wachtwoord is verplicht",
+    "forgot_password": "Wachtwoord vergeten?",
+    "no_account": "Nog geen account?",
+    "sign_in_facebook": "Log in met Facebook",
+    "sign_in_google": "Log in met Google",
+
+    "sign_up": "Registreren",
+    "or": "of",
+    "email_required": "E-mailadres is verplicht",
+    "password_least_characters": "Wachtwoord moet minimaal 6 karakters lang zijn",
+    "creating_account": "Account aanmaken",
+    "first_name": "Voornaam",
+    "first_name_required": "Voornaam is verplicht",
+    "last_name": "Achternaam",
+    "last_name_required": "Achternaam is verplicht",
+    "email": "E-mailadres",
+    "password": "Wachtwoord",
+    "confirm_password": "Bevestig Wachtwoord",
+    "password_dont_match": "Wachtwoorden komen niet overeen",
+
+    "forgot_password_page": "Wachtwoord vergeten",
+    "reset_password": "Wachtwoord opnieuw instellen",
+
+    "successfully_logged_in": "Succesvol ingelogd",
+    "account_registered_platform": "Account is al geregistreerd via een ander platform",
+    "account_disabled": "Dit account is geblokkeerd",
+    "something_went_wrong": "Er is iets fout gegaan",
+    "email_not_verified": "E-mailadres is niet geverifieerd",
+    "email_not_found": "E-mailadres niet gevonden",
+    "password_incorrect": "Wachtwoord is niet correct",
+    "email_vertification_send": "E-mailvertificatie is verzonden",
+    "email_in_use": "Dit e-mailadres is al in gebruik",
+    "password_reset_send": "E-mail voor het opnieuw instellen van het wachtwoord is verzonden",
+
+    "add_new_horse": "Nieuw Paard",
+
+    "home": "Startpagina",
+    
+    "my_horses": "Mijn Paarden",
+
+    "profile": "Profiel",
+
+    "settings": "Instellingen",
+
+    "sign_out": "Log uit",
+    "sure_sign_out": "Weet u zeker dat u zich wilt afmelden?",
+    "no": "Nee",
+    "yes": "Ja"
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horse_point/services/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   final VoidCallback onSideBar;
@@ -29,7 +30,7 @@ class _SettingsState extends State<SettingsPage> {
               Container(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: Text(
-                  "Settings",
+                  AppLocalizations.of(context).translate('settings'),
                   overflow: TextOverflow.visible,
                   style: TextStyle(
                     fontSize: 18,

@@ -10,6 +10,7 @@ import 'package:horse_point/pages/sections/add_horse.dart';
 import 'package:horse_point/pages/sections/settings.dart';
 import 'package:horse_point/pages/sections/profile.dart';
 import 'package:horse_point/services/authentication.dart';
+import 'package:horse_point/services/app_localizations.dart';
 import 'package:horse_point/widgets/menu_item.dart';
 import 'package:horse_point/utils.dart' as utils;
 
@@ -20,7 +21,7 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardState extends State<DashboardPage> {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final List<String> menuItems = ["Home", "My Horses", "Add Horse", "Settings"];
+  List<String> menuItems;
   final List<IconData> menuIcons = [
     CupertinoIcons.home,
     CupertinoIcons.photo,
@@ -41,6 +42,15 @@ class _DashboardState extends State<DashboardPage> {
   int selectedMenuItem = 0;
 
   var page;
+
+  void setTranslations() {
+    menuItems = [
+      AppLocalizations.of(context).translate('home'),
+      AppLocalizations.of(context).translate('my_horses'),
+      AppLocalizations.of(context).translate('add_new_horse'),
+      AppLocalizations.of(context).translate('settings')
+    ];
+  }
 
   void setSidebarState() {
     setState(() {
@@ -110,23 +120,23 @@ class _DashboardState extends State<DashboardPage> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Sign out'),
+          title: Text(AppLocalizations.of(context).translate('sign_out')),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Are you sure you want to sign out?'),
+                Text(AppLocalizations.of(context).translate('sure_sign_out')),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('No'),
+              child: Text(AppLocalizations.of(context).translate('no')),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: Text(AppLocalizations.of(context).translate('yes')),
               onPressed: () {
                 Navigator.of(context).pop();
                 context.read<AuthenticationService>().signOut();
@@ -151,6 +161,7 @@ class _DashboardState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    setTranslations();
     return Scaffold(
       body: Container(
         color: utils.primaryColor,
@@ -238,7 +249,7 @@ class _DashboardState extends State<DashboardPage> {
                                 opacity: sidebarOpen ? 1.0 : 0.0,
                                 duration: Duration(milliseconds: 200),
                                 child: Text(
-                                  truncate(_firebaseAuth.currentUser.email, 30),
+                                  truncate(_firebaseAuth.currentUser.email, 20),
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
@@ -283,7 +294,8 @@ class _DashboardState extends State<DashboardPage> {
                           },
                           child: MenuItem(
                             itemIcon: CupertinoIcons.square_arrow_left,
-                            itemText: "Sign out",
+                            itemText: AppLocalizations.of(context)
+                                .translate('sign_out'),
                             selected: selectedMenuItem,
                             position: menuItems.length + 1,
                           ),

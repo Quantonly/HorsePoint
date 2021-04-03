@@ -12,6 +12,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:horse_point/services/authentication.dart';
 import 'package:horse_point/widgets/social_buttons.dart';
+import 'package:horse_point/services/app_localizations.dart';
 import 'package:horse_point/utils.dart' as utils;
 
 class SignInPage extends StatefulWidget {
@@ -25,11 +26,6 @@ class _SignInState extends State<SignInPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  final emailValidator = MultiValidator([
-    RequiredValidator(errorText: 'Invalid email address'),
-    EmailValidator(errorText: 'Invalid email address'),
-  ]);
-
   bool _loggingIn = false;
 
   void login(String method) async {
@@ -38,13 +34,13 @@ class _SignInState extends State<SignInPage> {
     switch (method) {
       case 'facebook':
         context.read<AuthenticationService>().signInFacebook().then((res) => {
-              if (res['error'] != null) {showToast(res['error'])},
+              if (res['error'] != null) {showToast(AppLocalizations.of(context).translate(res['error']))},
               toggleOverlay()
             });
         break;
       case 'google':
         context.read<AuthenticationService>().signInGoogle().then((res) => {
-              if (res['error'] != null) {showToast(res['error'])},
+              if (res['error'] != null) {showToast(AppLocalizations.of(context).translate(res['error']))},
               toggleOverlay()
             });
         break;
@@ -56,7 +52,7 @@ class _SignInState extends State<SignInPage> {
               password: passwordController.text.trim(),
             )
             .then((res) => {
-                  if (res['error'] != null) {showToast(res['error'])},
+                  if (res['error'] != null) {showToast(AppLocalizations.of(context).translate(res['error']))},
                   toggleOverlay()
                 });
     }
@@ -118,7 +114,7 @@ class _SignInState extends State<SignInPage> {
                   Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(
-                        'Signing in',
+                        AppLocalizations.of(context).translate('signing_in'),
                         style: TextStyle(color: Colors.white),
                       )),
                 ],
@@ -172,7 +168,7 @@ class _SignInState extends State<SignInPage> {
                         transform: Matrix4.translationValues(0.0, -30.0, 0.0),
                         child: Center(
                           child: Text(
-                            'Sign in',
+                            AppLocalizations.of(context).translate('sign_in'),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 28,
@@ -194,8 +190,17 @@ class _SignInState extends State<SignInPage> {
                               controller: emailController,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              decoration: utils.getTextFieldDecoration("Email"),
-                              validator: emailValidator,
+                              decoration: utils.getTextFieldDecoration(
+                                  AppLocalizations.of(context)
+                                      .translate('email')),
+                              validator: MultiValidator([
+                                RequiredValidator(
+                                    errorText: AppLocalizations.of(context)
+                                        .translate('invalid_email')),
+                                EmailValidator(
+                                    errorText: AppLocalizations.of(context)
+                                        .translate('invalid_email')),
+                              ]),
                               keyboardType: TextInputType.emailAddress,
                               style: new TextStyle(
                                 color: Colors.white,
@@ -211,10 +216,12 @@ class _SignInState extends State<SignInPage> {
                               controller: passwordController,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              decoration:
-                                  utils.getTextFieldDecoration("Password"),
+                              decoration: utils.getTextFieldDecoration(
+                                  AppLocalizations.of(context)
+                                      .translate('password')),
                               validator: RequiredValidator(
-                                  errorText: 'Password is required'),
+                                  errorText: AppLocalizations.of(context)
+                                      .translate('required_password')),
                               style: new TextStyle(
                                 color: Colors.white,
                               ),
@@ -236,7 +243,8 @@ class _SignInState extends State<SignInPage> {
                               passwordReset();
                             },
                             child: Text(
-                              'Forgot password?',
+                              AppLocalizations.of(context)
+                                  .translate('forgot_password'),
                               style: TextStyle(
                                 color: Colors.blueAccent,
                               ),
@@ -263,7 +271,7 @@ class _SignInState extends State<SignInPage> {
                           ),
                           child: Center(
                             child: Text(
-                              "Sign in",
+                              AppLocalizations.of(context).translate('sign_in'),
                               style: TextStyle(
                                 color: Colors.black,
                               ),
@@ -277,7 +285,8 @@ class _SignInState extends State<SignInPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(
-                              'Don\'t have an account?',
+                              AppLocalizations.of(context)
+                                  .translate('no_account'),
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -288,7 +297,9 @@ class _SignInState extends State<SignInPage> {
                                 signUp();
                               },
                               child: Text(
-                                ' Sign up',
+                                ' ' +
+                                    AppLocalizations.of(context)
+                                        .translate('sign_up'),
                                 style: TextStyle(
                                   color: Colors.blueAccent,
                                 ),
@@ -310,7 +321,9 @@ class _SignInState extends State<SignInPage> {
                               ),
                             ),
                             Text(
-                              "  or  ",
+                              '  ' +
+                                  AppLocalizations.of(context).translate('or') +
+                                  '  ',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,

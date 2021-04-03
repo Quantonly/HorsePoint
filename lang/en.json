@@ -1,0 +1,53 @@
+{
+    "sign_in": "Sign in",
+    "signing_in": "Signing in",
+    "invalid_email": "Invalid email address",
+    "required_password": "Password is required",
+    "forgot_password": "Forgot password?",
+    "no_account": "Don't have an account?",
+    "sign_in_facebook": "Sign in with Facebook",
+    "sign_in_google": "Sign in with Google",
+
+    "sign_up": "Sign up",
+    "or": "or",
+    "email_required": "Email is required",
+    "password_least_characters": "Password must be at least 6 characters long",
+    "creating_account": "Creating account",
+    "first_name": "First name",
+    "first_name_required": "First name is required",
+    "last_name": "Last name",
+    "last_name_required": "Last name is required",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "password_dont_match": "Passwords do not match",
+
+    "forgot_password_page": "Forgot password",
+    "reset_password": "Reset password",
+
+    "successfully_logged_in": "Successfully logged in",
+    "account_registered_platform": "Account is already registered via another platform",
+    "account_disabled": "This account has been disabled",
+    "something_went_wrong": "Something went wrong",
+    "email_not_verified": "Email is not verified",
+    "email_not_found": "Email not found",
+    "password_incorrect": "Password is incorrect",
+    "email_vertification_send": "Email vertification has been send",
+    "email_in_use": "This email is already in use",
+    "password_reset_send": "Password reset email has been send",
+
+    "add_new_horse": "New Horse",
+
+    "home": "Home",
+    
+    "my_horses": "My Horses",
+
+    "profile": "Profile",
+
+    "settings": "Settings",
+
+    "sign_out": "Sign out",
+    "sure_sign_out": "Are you sure you want to sign out?",
+    "no": "No",
+    "yes": "Yes"
+}

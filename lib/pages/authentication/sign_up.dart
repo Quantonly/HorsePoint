@@ -10,6 +10,7 @@ import 'package:overlay_container/overlay_container.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:horse_point/services/authentication.dart';
+import 'package:horse_point/services/app_localizations.dart';
 import 'package:horse_point/utils.dart' as utils;
 
 class SignUpPage extends StatefulWidget {
@@ -26,16 +27,6 @@ class _SignUpState extends State<SignUpPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
-
-  final emailValidator = MultiValidator([
-    RequiredValidator(errorText: 'Email is required'),
-    EmailValidator(errorText: 'Invalid email address'),
-  ]);
-
-  final passwordValidator = MultiValidator([
-    RequiredValidator(errorText: 'Password is required'),
-    MinLengthValidator(6, errorText: 'Password must be at least 6 digits long'),
-  ]);
 
   bool _registering = false;
 
@@ -55,14 +46,14 @@ class _SignUpState extends State<SignUpPage> {
         .then((res) => {
               if (res['error'] != null)
                 {
-                  Toast.show(res['error'], context,
+                  Toast.show(AppLocalizations.of(context).translate(res['error']), context,
                       duration: Toast.LENGTH_LONG,
                       backgroundColor: Colors.red,
                       gravity: Toast.TOP),
                 }
               else if (res['success'] != null)
                 {
-                  Toast.show(res['success'], context,
+                  Toast.show(AppLocalizations.of(context).translate(res['succcess']), context,
                       duration: Toast.LENGTH_LONG, gravity: Toast.TOP),
                   Navigator.pop(context, emailController.text.trim())
                 },
@@ -95,7 +86,8 @@ class _SignUpState extends State<SignUpPage> {
                   Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: Text(
-                        'Creating account',
+                        AppLocalizations.of(context)
+                            .translate('creating_account'),
                         style: TextStyle(color: Colors.white),
                       )),
                 ],
@@ -164,7 +156,7 @@ class _SignUpState extends State<SignUpPage> {
                         transform: Matrix4.translationValues(0.0, -30.0, 0.0),
                         child: Center(
                           child: Text(
-                            'Sign up',
+                            AppLocalizations.of(context).translate('sign_up'),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 28,
@@ -189,10 +181,12 @@ class _SignUpState extends State<SignUpPage> {
                                     TextCapitalization.sentences,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                decoration:
-                                    utils.getTextFieldDecoration("First name"),
+                                decoration: utils.getTextFieldDecoration(
+                                    AppLocalizations.of(context)
+                                        .translate('first_name')),
                                 validator: RequiredValidator(
-                                    errorText: "First name is required"),
+                                    errorText: AppLocalizations.of(context)
+                                        .translate('first_name_required')),
                                 style: new TextStyle(
                                   color: Colors.white,
                                 ),
@@ -209,10 +203,12 @@ class _SignUpState extends State<SignUpPage> {
                                     TextCapitalization.sentences,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                decoration:
-                                    utils.getTextFieldDecoration("Last name"),
+                                decoration: utils.getTextFieldDecoration(
+                                    AppLocalizations.of(context)
+                                        .translate('last_name')),
                                 validator: RequiredValidator(
-                                    errorText: "Last name is required"),
+                                    errorText: AppLocalizations.of(context)
+                                        .translate('last_name_required')),
                                 style: new TextStyle(
                                   color: Colors.white,
                                 ),
@@ -226,9 +222,17 @@ class _SignUpState extends State<SignUpPage> {
                                 controller: emailController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                decoration:
-                                    utils.getTextFieldDecoration("Email"),
-                                validator: emailValidator,
+                                decoration: utils.getTextFieldDecoration(
+                                    AppLocalizations.of(context)
+                                        .translate('email')),
+                                validator: MultiValidator([
+                                  RequiredValidator(
+                                      errorText: AppLocalizations.of(context)
+                                          .translate('email_required')),
+                                  EmailValidator(
+                                      errorText: AppLocalizations.of(context)
+                                          .translate('invalid_email')),
+                                ]),
                                 keyboardType: TextInputType.emailAddress,
                                 style: new TextStyle(
                                   color: Colors.white,
@@ -244,9 +248,18 @@ class _SignUpState extends State<SignUpPage> {
                                 controller: passwordController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                decoration:
-                                    utils.getTextFieldDecoration("Password"),
-                                validator: passwordValidator,
+                                decoration: utils.getTextFieldDecoration(
+                                    AppLocalizations.of(context)
+                                        .translate('password')),
+                                validator: MultiValidator([
+                                  RequiredValidator(
+                                      errorText: AppLocalizations.of(context)
+                                          .translate('required_password')),
+                                  MinLengthValidator(6,
+                                      errorText: AppLocalizations.of(context)
+                                          .translate(
+                                              'password_least_characters')),
+                                ]),
                                 style: new TextStyle(
                                   color: Colors.white,
                                 ),
@@ -261,10 +274,12 @@ class _SignUpState extends State<SignUpPage> {
                                 controller: confirmPasswordController,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                decoration: utils
-                                    .getTextFieldDecoration("Confirm password"),
+                                decoration: utils.getTextFieldDecoration(
+                                    AppLocalizations.of(context)
+                                        .translate('confirm_password')),
                                 validator: (val) => MatchValidator(
-                                        errorText: 'Passwords do not match')
+                                        errorText: AppLocalizations.of(context)
+                                            .translate('password_dont_match'))
                                     .validateMatch(
                                         val, passwordController.text),
                                 style: new TextStyle(
@@ -294,7 +309,7 @@ class _SignUpState extends State<SignUpPage> {
                           ),
                           child: Center(
                             child: Text(
-                              "Sign up",
+                              AppLocalizations.of(context).translate('sign_up'),
                               style: TextStyle(
                                 color: Colors.black,
                               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horse_point/services/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   final VoidCallback onSideBar;
@@ -29,7 +30,7 @@ class _ProfileState extends State<ProfilePage> {
               Container(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: Text(
-                  "Profile",
+                  AppLocalizations.of(context).translate('profile'),
                   overflow: TextOverflow.visible,
                   style: TextStyle(
                     fontSize: 18,

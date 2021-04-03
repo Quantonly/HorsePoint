@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horse_point/services/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   final VoidCallback onSideBar;
@@ -29,7 +30,7 @@ class _HomeState extends State<HomePage> {
               Container(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: Text(
-                  "Homepage",
+                  AppLocalizations.of(context).translate('home'),
                   overflow: TextOverflow.visible,
                   style: TextStyle(
                     fontSize: 18,

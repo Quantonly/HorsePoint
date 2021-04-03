@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horse_point/services/app_localizations.dart';
 
 class SocialButtons extends StatelessWidget {
   final VoidCallback onFacebookSignIn;
@@ -51,7 +52,7 @@ class SocialButtons extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Sign in with Facebook",
+                        AppLocalizations.of(context).translate('sign_in_facebook'),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -100,7 +101,7 @@ class SocialButtons extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
-                        "Sign in with Google",
+                        AppLocalizations.of(context).translate('sign_in_google'),
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
