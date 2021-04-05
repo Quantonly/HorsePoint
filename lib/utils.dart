@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 Color primaryColor = Color.fromRGBO(33, 44, 54, 1);
-//Color primaryColor = Color(0xFFB1F2B36);
+Color primaryColorLight = Colors.indigo;
 Color secondaryColor = Color(0xFFB151E26);
 
 InputDecoration getTextFieldDecoration(String label) {

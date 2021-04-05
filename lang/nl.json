@@ -42,9 +42,18 @@
     
     "my_horses": "Mijn Paarden",
 
-    "profile": "Profiel",
-
     "settings": "Instellingen",
+    "edit_profile": "Bewerk profiel",
+    "change_language": "Verander taal",
+    "change_currency": "Verander munteenheid",
+    "notification_settings": "Notificatie Instellingen",
+    "receive_notifications": "Ontvang notificaties",
+    "profile": "Profiel",
+    "language": "Taal",
+    "supported_languages": "Ondersteunde talen",
+    "currency": "Munteenheid",
+
+    "retrieving_information": "Informatie ophalen",
 
     "sign_out": "Log uit",
     "sure_sign_out": "Weet u zeker dat u zich wilt afmelden?",

@@ -42,9 +42,18 @@
     
     "my_horses": "My Horses",
 
-    "profile": "Profile",
-
     "settings": "Settings",
+    "edit_profile": "Edit Profile",
+    "change_language": "Change Language",
+    "change_currency": "Change Currency",
+    "notification_settings": "Notification Settings",
+    "receive_notifications": "Receive notifications",
+    "profile": "Profile",
+    "language": "Language",
+    "supported_languages": "Supported Languages",
+    "currency": "Currency",
+
+    "retrieving_information": "Retrieving information",
 
     "sign_out": "Sign out",
     "sure_sign_out": "Are you sure you want to sign out?",

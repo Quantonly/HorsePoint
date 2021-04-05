@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:horse_point/services/app_localizations.dart';
 
 class AddHorsePage extends StatefulWidget {
+  final double sideBarPadding;
   final VoidCallback onSideBar;
-  AddHorsePage({this.onSideBar});
+
+  AddHorsePage({this.sideBarPadding, this.onSideBar});
   @override
   _AddHorseState createState() => _AddHorseState();
 }

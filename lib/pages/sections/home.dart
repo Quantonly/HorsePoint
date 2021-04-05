@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:horse_point/services/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
+  final double sideBarPadding;
   final VoidCallback onSideBar;
-  HomePage({this.onSideBar});
+
+  HomePage({this.sideBarPadding, this.onSideBar});
   @override
   _HomeState createState() => _HomeState();
 }

@@ -43,16 +43,15 @@ class AuthenticationService {
       final result = await _facebookLogin.logIn(['email']);
       if(result.status == FacebookLoginStatus.loggedIn) {
         final token = result.accessToken.token;
-        final graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=picture.type(large)&access_token=${token}'));
-        Map<String, dynamic> picture = jsonDecode(graphResponse.body);
-        print(picture);
 
         final credential = FacebookAuthProvider.credential(token);
         UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
-        await _firebaseAuth.currentUser.updateProfile(photoURL: picture['picture']['data']['url']);
-        await _firebaseAuth.currentUser.reload();
         if (userCredential.additionalUserInfo.isNewUser) {
-          await UserService(uid: _firebaseAuth.currentUser.uid).createUserData(_firebaseAuth.currentUser.displayName, _firebaseAuth.currentUser.email, _firebaseAuth.currentUser.photoURL);
+          final graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v2.12/me?fields=picture.type(large)&access_token=' + token));
+          Map<String, dynamic> picture = jsonDecode(graphResponse.body);
+          await UserService(uid: _firebaseAuth.currentUser.uid).createUserData(_firebaseAuth.currentUser.displayName, _firebaseAuth.currentUser.email, picture['picture']['data']['url']);
+          await _firebaseAuth.currentUser.updateProfile(photoURL: picture['picture']['data']['url']);
+          await _firebaseAuth.currentUser.reload();
         }
       }
       return {'success': 'successfully_logged_in'};

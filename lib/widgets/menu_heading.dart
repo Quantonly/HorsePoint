@@ -1,14 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:horse_point/services/app_localizations.dart';
 
-class SettingsPage extends StatefulWidget {
+class MenuHeading extends StatelessWidget {
   final VoidCallback onSideBar;
-  SettingsPage({this.onSideBar});
-  @override
-  _SettingsState createState() => _SettingsState();
-}
+  final String title;
 
-class _SettingsState extends State<SettingsPage> {
+  MenuHeading({this.onSideBar, this.title});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +19,7 @@ class _SettingsState extends State<SettingsPage> {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  widget.onSideBar();
+                  onSideBar();
                 },
                 child: Container(
                     color: Colors.white,
@@ -30,7 +29,7 @@ class _SettingsState extends State<SettingsPage> {
               Container(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: Text(
-                  AppLocalizations.of(context).translate('settings'),
+                  AppLocalizations.of(context).translate(title),
                   overflow: TextOverflow.visible,
                   style: TextStyle(
                     fontSize: 18,

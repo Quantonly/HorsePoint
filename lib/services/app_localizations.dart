@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,7 +19,7 @@ class AppLocalizations {
 
   Map<String, String> _localizedStrings;
 
-  Future<bool> load() async {
+  Future<bool> load(Locale locale) async {
     String jsonString =
         await rootBundle.loadString('lang/${locale.languageCode}.json');
     Map<String, dynamic> jsonMap = json.decode(jsonString);
@@ -41,13 +42,15 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'nl'].contains(locale.languageCode);
+    return ['en', 'nl', 'fr', 'de'].contains(locale.languageCode);
   }
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     AppLocalizations localizations = new AppLocalizations(locale);
-    await localizations.load();
+    if (prefs.getString('language') == null) await prefs.setString('language', locale.languageCode);
+    await localizations.load(Locale(prefs.getString('language')));
     return localizations;
   }
 

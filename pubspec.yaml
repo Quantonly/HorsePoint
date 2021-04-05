@@ -30,6 +30,7 @@ dependencies:
   toast: ^0.1.5
   flutter_spinkit: ^4.1.2
   overlay_container: ^0.0.5+1
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +40,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/login_background.jpg
+    - assets/images/default_profile.png
     - assets/logos/facebook_logo.png
     - assets/logos/google_logo.png
     - lang/
