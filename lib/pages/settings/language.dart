@@ -4,7 +4,7 @@ import 'package:horse_point/services/app_localizations.dart';
 import 'package:horse_point/services/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:horse_point/services/language_converter.dart';
+import 'package:horse_point/services/converters/language_converter.dart';
 import 'package:horse_point/utils.dart' as utils;
 
 class LanguagePage extends StatefulWidget {
@@ -111,7 +111,7 @@ class _LanguageState extends State<LanguagePage> {
                 ),
                 child: Center(
                   child: Text(
-                    'Apply',
+                    AppLocalizations.of(context).translate('apply'),
                     style: TextStyle(
                       color: Colors.white,
                     ),

@@ -51,8 +51,10 @@
     "profile": "Profile",
     "language": "Language",
     "supported_languages": "Supported Languages",
+    "apply": "Apply",
     "currency": "Currency",
-    
+    "currencies": "Currencies",
+
     "retrieving_information": "Retrieving information",
 
     "sign_out": "Sign out",

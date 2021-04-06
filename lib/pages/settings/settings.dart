@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:horse_point/pages/settings/profile.dart';
 import 'package:horse_point/pages/settings/currency.dart';
 import 'package:horse_point/pages/settings/language.dart';
 import 'package:horse_point/pages/settings/settings_options.dart';
+import 'package:horse_point/services/user.dart';
 
 import 'package:horse_point/widgets/back_heading.dart';
 import 'package:horse_point/widgets/menu_heading.dart';
@@ -19,6 +22,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsState extends State<SettingsPage> {
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   String heading;
   String page;
   String title = 'settings';
@@ -39,6 +43,11 @@ class _SettingsState extends State<SettingsPage> {
         return MenuHeading(title: 'settings', onSideBar: widget.onSideBar);
         break;
     }
+  }
+
+  void saveSettings(newSettings) async {
+    widget.settings['notifications'] = newSettings['notifications'];
+    UserService(uid: _firebaseAuth.currentUser.uid).setSettings(widget.settings['language'], widget.settings['currency'], newSettings['notifications']);
   }
 
   Widget getPage() {
@@ -66,8 +75,9 @@ class _SettingsState extends State<SettingsPage> {
         break;
       case 'currency':
         return CurrencyPage(
-            currency: widget.settings['currency'],
-            onPageChange: (newHeading, newPage) {
+            settings: widget.settings,
+            onPageChange: (newHeading, newPage, newCurrency) {
+              widget.settings['currency'] = newCurrency;
               setState(() {
                 title = newPage;
                 heading = newHeading;
@@ -78,6 +88,9 @@ class _SettingsState extends State<SettingsPage> {
       default:
         return SettingsOptionsPage(
             settings: widget.settings,
+            onDestroy: (newSettings) {
+              saveSettings(newSettings);
+            },
             onPageChange: (newHeading, newPage) {
               setState(() {
                 title = newPage;

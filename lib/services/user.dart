@@ -18,13 +18,13 @@ class UserService {
       'settings': {
         'language': prefs.getString('language'),
         'currency': 'EUR',
-        'notifications': 'on'
+        'notifications': true
       }
     });
   }
 
   Future<void> setSettings(
-      String language, String currency, String notifications) async {
+      String language, String currency, bool notifications) async {
     return await users.doc(uid).update({
       'settings': {
         'language': language,

@@ -1,21 +1,36 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:horse_point/services/app_localizations.dart';
+import 'package:horse_point/services/converters/currency_converter.dart';
 
-import 'package:horse_point/services/language_converter.dart';
+import 'package:horse_point/services/converters/language_converter.dart';
 import 'package:horse_point/utils.dart' as utils;
 
 class SettingsOptionsPage extends StatefulWidget {
   final dynamic settings;
   final Function(String, String) onPageChange;
+  final Function(dynamic) onDestroy;
 
-  SettingsOptionsPage({this.settings, this.onPageChange});
+  SettingsOptionsPage({this.settings, this.onPageChange, this.onDestroy});
   @override
   _SettingsOptionsState createState() => _SettingsOptionsState();
 }
 
 class _SettingsOptionsState extends State<SettingsOptionsPage> {
+  var newSettings = {'notifications': true};
+
+  @override
+  void initState() {
+    super.initState();
+    newSettings['notifications'] = widget.settings['notifications'];
+  }
+
+  @override
+  void dispose() {
+    widget.onDestroy(newSettings);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -60,7 +75,7 @@ class _SettingsOptionsState extends State<SettingsOptionsPage> {
                       _buildDivider(),
                       ListTile(
                         leading: Icon(
-                          CupertinoIcons.money_euro_circle,
+                          CurrencyConverter().icons[CurrencyConverter().currencies.indexOf(widget.settings['currency'])],
                           color: utils.primaryColorLight,
                         ),
                         title: Text(AppLocalizations.of(context).translate('change_currency')),
@@ -85,9 +100,13 @@ class _SettingsOptionsState extends State<SettingsOptionsPage> {
                 SwitchListTile(
                   activeColor: utils.primaryColorLight,
                   contentPadding: EdgeInsets.all(0),
-                  value: true,
+                  value: newSettings['notifications'],
                   title: Text(AppLocalizations.of(context).translate('receive_notifications')),
-                  onChanged: (val) {},
+                  onChanged: (val) {
+                    setState(() {
+                      newSettings['notifications'] = !newSettings['notifications'];
+                    });
+                  },
                 ),
               ],
             ),

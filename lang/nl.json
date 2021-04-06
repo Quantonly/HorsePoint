@@ -51,7 +51,9 @@
     "profile": "Profiel",
     "language": "Taal",
     "supported_languages": "Ondersteunde talen",
+    "apply": "Toepassen",
     "currency": "Munteenheid",
+    "currencies": "Munteenheden",
 
     "retrieving_information": "Informatie ophalen",
 

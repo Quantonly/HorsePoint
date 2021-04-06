@@ -172,9 +172,11 @@ class _DashboardState extends State<DashboardPage> {
                 onHorizontalDragEnd: (details) {
                   if (details.velocity.pixelsPerSecond.dx > 0) {
                     if (sidebarOffset == 0) {
-                      sidebarOffset = 60;
-                      sidebarOpen = false;
-                      setSidebarState();
+                      if (!sidebarOpen) {
+                        sidebarOffset = 60;
+                        sidebarOpen = false;
+                        setSidebarState();
+                      }
                     } else {
                       sidebarOpen = true;
                       setSidebarState();
@@ -320,9 +322,11 @@ class _DashboardState extends State<DashboardPage> {
                 onHorizontalDragEnd: (details) {
                   if (details.velocity.pixelsPerSecond.dx > 0) {
                     if (sidebarOffset == 0) {
-                      sidebarOffset = 60;
-                      sidebarOpen = false;
-                      setSidebarState();
+                      if (!sidebarOpen) {
+                        sidebarOffset = 60;
+                        sidebarOpen = false;
+                        setSidebarState();
+                      }
                     } else {
                       sidebarOpen = true;
                       setSidebarState();
