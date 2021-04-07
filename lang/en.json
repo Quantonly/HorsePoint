@@ -43,10 +43,13 @@
     "my_horses": "My Horses",
 
     "settings": "Settings",
-    "edit_profile": "Edit Profile",
-    "change_language": "Change Language",
-    "change_currency": "Change Currency",
-    "notification_settings": "Notification Settings",
+    "account": "Account",
+    "change_password": "Change Password",
+    "old_password": "Old password",
+    "new_password": "New password",
+    "confirm_new_password": "Confirm new password",
+    "change_email": "Change Email",
+    "notifications": "Notifications",
     "receive_notifications": "Receive notifications",
     "profile": "Profile",
     "language": "Language",
@@ -54,6 +57,7 @@
     "apply": "Apply",
     "currency": "Currency",
     "currencies": "Currencies",
+    "privacy_security": "Privacy and security",
 
     "retrieving_information": "Retrieving information",
 

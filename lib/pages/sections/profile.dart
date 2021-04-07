@@ -1,12 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:horse_point/services/app_localizations.dart';
 
-class BackHeading extends StatelessWidget {
-  final String title;
+class ProfilePage extends StatefulWidget {
+  final double sideBarPadding;
+  final VoidCallback onSideBar;
 
-  BackHeading({this.title});
+  ProfilePage({this.sideBarPadding, this.onSideBar});
+  @override
+  _ProfileState createState() => _ProfileState();
+}
 
+class _ProfileState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,17 +22,17 @@ class BackHeading extends StatelessWidget {
             children: <Widget>[
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pop();
+                  widget.onSideBar();
                 },
                 child: Container(
                     color: Colors.white,
                     padding: EdgeInsets.all(20),
-                    child: Icon(CupertinoIcons.arrow_left)),
+                    child: Icon(Icons.menu)),
               ),
               Container(
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: Text(
-                  AppLocalizations.of(context).translate(title),
+                  AppLocalizations.of(context).translate('profile'),
                   overflow: TextOverflow.visible,
                   style: TextStyle(
                     fontSize: 18,

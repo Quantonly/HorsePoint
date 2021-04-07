@@ -4,6 +4,8 @@ Color primaryColor = Color.fromRGBO(33, 44, 54, 1);
 Color primaryColorLight = Colors.indigo;
 Color secondaryColor = Color(0xFFB151E26);
 
+double sidebarOffset = 60;
+
 InputDecoration getTextFieldDecoration(String label) {
   return InputDecoration(
     labelStyle: TextStyle(

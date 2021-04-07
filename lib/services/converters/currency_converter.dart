@@ -20,9 +20,9 @@ class CurrencyConverter {
   ];
 
   final List<IconData> icons = [
-    CupertinoIcons.money_euro_circle,
-    CupertinoIcons.money_dollar_circle,
-    CupertinoIcons.money_pound_circle,
+    CupertinoIcons.money_euro,
+    CupertinoIcons.money_dollar,
+    CupertinoIcons.money_pound,
   ];
 
   String getCurrency(symbol) {

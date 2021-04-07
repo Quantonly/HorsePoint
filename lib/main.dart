@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+
 import 'package:horse_point/pages/get_started.dart';
-import 'package:horse_point/services/authentication.dart';
-import 'package:horse_point/services/app_localizations.dart';
 import 'package:horse_point/pages/dashboard.dart';
 import 'package:horse_point/pages/authentication/sign_in.dart';
-import 'package:firebase_core/firebase_core.dart';
+
+import 'package:horse_point/services/authentication.dart';
+import 'package:horse_point/services/app_localizations.dart';
 import 'package:horse_point/services/user.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:horse_point/utils.dart' as utils;
 
 Future<void> main() async {
