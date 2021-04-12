@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:horse_point/widgets/back_heading.dart';
 import 'package:horse_point/utils.dart' as utils;
+import 'package:sticky_headers/sticky_headers/widget.dart';
 
 class PrivacySecurityPage extends StatefulWidget {
   final dynamic settings;
@@ -25,7 +26,7 @@ class _PrivacySecurityState extends State<PrivacySecurityPage> {
     super.initState();
     Stream stream = widget.controller.stream;
     sidebarPadding = utils.sidebarOffset;
-    
+
     streamSubscription = stream.listen((value) {
       setState(() {
         sidebarPadding = value;
@@ -42,23 +43,26 @@ class _PrivacySecurityState extends State<PrivacySecurityPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.infinity,
-      width: double.infinity,
       color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          BackHeading(title: 'privacy_security'),
-          AnimatedPadding(
-            duration: Duration(milliseconds: 300),
-            padding: EdgeInsets.only(right: sidebarPadding),
-            child: Column(
-              children: [
-                SizedBox(height: 20),
-              ],
-            ),
-          ),
-        ],
-      ),
+      margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.all(0),
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return StickyHeader(
+              header: BackHeading(title: 'privacy_security'),
+              content: AnimatedPadding(
+                duration: Duration(milliseconds: 300),
+                padding: EdgeInsets.only(right: sidebarPadding),
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                  ],
+                ),
+              ),
+            );
+          }),
     );
   }
 }

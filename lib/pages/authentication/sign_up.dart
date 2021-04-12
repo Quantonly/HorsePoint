@@ -53,7 +53,7 @@ class _SignUpState extends State<SignUpPage> {
                 }
               else if (res['success'] != null)
                 {
-                  Toast.show(AppLocalizations.of(context).translate(res['succcess']), context,
+                  Toast.show(AppLocalizations.of(context).translate(res['success']), context,
                       duration: Toast.LENGTH_LONG, gravity: Toast.TOP),
                   Navigator.pop(context, emailController.text.trim())
                 },

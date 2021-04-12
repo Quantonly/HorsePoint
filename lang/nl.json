@@ -35,6 +35,8 @@
     "email_vertification_send": "E-mailvertificatie is verzonden",
     "email_in_use": "Dit e-mailadres is al in gebruik",
     "password_reset_send": "E-mail voor het opnieuw instellen van het wachtwoord is verzonden",
+    "password_reset": "Wachtwoord is succesvol gewijzigd",
+    "email_reset_send": "E-mailvertificatie is verzonden naar uw nieuwe e-mailadres",
 
     "add_new_horse": "Nieuw Paard",
 
@@ -44,11 +46,14 @@
 
     "settings": "Instellingen",
     "account": "Account",
-    "change_password": "Verander Wachtwoord",
+    "application": "Applicatie",
+    "change_password": "Verander wachtwoord",
     "old_password": "Oud wachtwoord",
     "new_password": "Nieuw wachtwoord",
     "confirm_new_password": "Bevestig nieuw wachtwoord",
-    "change_email": "Verander E-mailadres",
+    "change_email": "Verander e-mailadres",
+    "email_yours": "U bent al geregistreerd met dit e-mailadres",
+    "sure_change_email": "U moet uw nieuwe e-mailadres verifiëren en opnieuw inloggen.\nWeet u zeker dat u uw e-mailadres wilt wijzigen?",
     "notifications": "Meldingen",
     "receive_notifications": "Ontvang meldingen",
     "profile": "Profiel",
@@ -58,6 +63,8 @@
     "currency": "Munteenheid",
     "currencies": "Munteenheden",
     "privacy_security": "Privacy en veiligheid",
+    "delete_account": "Verwijder account",
+    "sure_delete_account": "Al uw profielgegevens worden definitief verwijderd en deze actie kan niet ongedaan worden gemaakt!\nWeet u zeker dat u uw account wilt verwijderen?",
 
     "retrieving_information": "Informatie ophalen",
 

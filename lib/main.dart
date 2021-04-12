@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'package:horse_point/pages/get_started.dart';
 import 'package:horse_point/pages/dashboard.dart';
 import 'package:horse_point/pages/authentication/sign_in.dart';
 
@@ -72,7 +71,7 @@ class HorsePointApp extends StatelessWidget {
   }
 }
 
-Future<dynamic> setLanguage(uid, context) async {
+Future<dynamic> getRedirect(uid, context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var settings;
   await UserService(uid: uid).getSettings().then((value) {
@@ -83,6 +82,7 @@ Future<dynamic> setLanguage(uid, context) async {
     AppLocalizations.of(context).load(Locale(settings['language']));
   }
   await Future.delayed(Duration(milliseconds: 1000));
+  await prefs.setBool('signing_in', false);
   return settings;
 }
 
@@ -103,7 +103,8 @@ class RetrievingInfo extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: Text(
-                    AppLocalizations.of(context).translate('retrieving_information'),
+                    AppLocalizations.of(context)
+                        .translate('retrieving_information'),
                     style: TextStyle(color: Colors.white),
                   )),
             ],
@@ -114,26 +115,39 @@ class RetrievingInfo extends StatelessWidget {
   }
 }
 
-class AuthenticationWrapper extends StatelessWidget {
+class AuthenticationWrapper extends StatefulWidget {
+  @override
+  _AuthenticationWrapperState createState() => _AuthenticationWrapperState();
+}
+
+class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
+  SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((value) {
+      prefs = value;
+      prefs.setBool('signing_in', true);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final firebaseUser = context.watch<User>();
 
     if (firebaseUser != null) {
-      setLanguage(firebaseUser.uid, context);
+      if (firebaseUser.providerData[0].providerId != 'facebook.com' &&
+          !firebaseUser.emailVerified) return SignInPage();
       return FutureBuilder(
-          future: setLanguage(firebaseUser.uid, context),
+          future: getRedirect(firebaseUser.uid, context),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
-              if (firebaseUser.providerData[0].providerId == 'facebook.com')
-                return DashboardPage();
-              else if (firebaseUser.emailVerified) return DashboardPage();
-            } else if (!snapshot.hasData &&
-                snapshot.connectionState == ConnectionState.done) {
-              return GetStartedPage();
+              return DashboardPage();
             }
-            return RetrievingInfo();
+            if (prefs.getBool('signing_in')) return RetrievingInfo();
+            return DashboardPage();
           });
     }
     return SignInPage();

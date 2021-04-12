@@ -12,7 +12,7 @@ class BackHeading extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+          color: Colors.white,
           height: 60,
           child: Row(
             children: <Widget>[

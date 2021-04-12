@@ -35,6 +35,8 @@
     "email_vertification_send": "Email vertification has been send",
     "email_in_use": "This email is already in use",
     "password_reset_send": "Password reset email has been send",
+    "password_reset": "Password has successfully been changed",
+    "email_reset_send": "Email vertification has been send to your new email",
 
     "add_new_horse": "New Horse",
 
@@ -44,11 +46,14 @@
 
     "settings": "Settings",
     "account": "Account",
-    "change_password": "Change Password",
+    "application": "Application",
+    "change_password": "Change password",
     "old_password": "Old password",
     "new_password": "New password",
     "confirm_new_password": "Confirm new password",
-    "change_email": "Change Email",
+    "change_email": "Change email",
+    "email_yours": "You are already registered with this email",
+    "sure_change_email": "You will need to verify your new email and login again.\nAre you sure you want to change your email?",
     "notifications": "Notifications",
     "receive_notifications": "Receive notifications",
     "profile": "Profile",
@@ -58,6 +63,8 @@
     "currency": "Currency",
     "currencies": "Currencies",
     "privacy_security": "Privacy and security",
+    "delete_account": "Delete account",
+    "sure_delete_account": "All your Profile Data will be permanently deleted and this action cannot be reversed!\nAre you sure you want to delete your account?",
 
     "retrieving_information": "Retrieving information",
 

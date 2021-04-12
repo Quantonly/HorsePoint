@@ -5,6 +5,7 @@ Color primaryColorLight = Colors.indigo;
 Color secondaryColor = Color(0xFFB151E26);
 
 double sidebarOffset = 60;
+BuildContext mainContext;
 
 InputDecoration getTextFieldDecoration(String label) {
   return InputDecoration(
@@ -15,6 +16,7 @@ InputDecoration getTextFieldDecoration(String label) {
     fillColor: Colors.grey,
     contentPadding: EdgeInsets.only(
       left: 30.0,
+      right: 15.0
     ),
     errorStyle: TextStyle(color: Colors.red),
     enabledBorder: OutlineInputBorder(

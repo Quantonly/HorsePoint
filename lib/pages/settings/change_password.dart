@@ -1,8 +1,13 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:sticky_headers/sticky_headers/widget.dart';
+import 'package:toast/toast.dart';
+
 import 'package:horse_point/services/app_localizations.dart';
+import 'package:horse_point/services/authentication.dart';
 import 'package:horse_point/widgets/back_heading.dart';
 import 'package:horse_point/utils.dart' as utils;
 
@@ -22,11 +27,40 @@ class _ChangePasswordState extends State<ChangePasswordPage> {
 
   _ChangePasswordState(this.settings);
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController oldPasswordController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
-  void changePassword() {}
+  void changePassword() {
+    context
+        .read<AuthenticationService>()
+        .resetPassword(
+            oldPassword: oldPasswordController.text,
+            newPassword: newPasswordController.text)
+        .then((res) => {
+              if (res['error'] != null)
+                {
+                  Toast.show(
+                    AppLocalizations.of(context).translate(res['error']),
+                    utils.mainContext,
+                    duration: Toast.LENGTH_LONG,
+                    backgroundColor: Colors.red,
+                    gravity: Toast.TOP,
+                  )
+                },
+              if (res['success'] != null)
+                {
+                  Toast.show(
+                    AppLocalizations.of(context).translate(res['success']),
+                    utils.mainContext,
+                    duration: Toast.LENGTH_LONG,
+                    gravity: Toast.TOP,
+                  ),
+                  Navigator.pop(context)
+                }
+            });
+  }
 
   @override
   void initState() {
@@ -50,17 +84,18 @@ class _ChangePasswordState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.infinity,
-      width: double.infinity,
       color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          BackHeading(title: 'change_password'),
-          Expanded(
-            child: AnimatedPadding(
-              duration: Duration(milliseconds: 300),
-              padding: EdgeInsets.only(right: sidebarPadding),
-              child: Container(
+      margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      child: ListView.builder(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.all(0),
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return StickyHeader(
+              header: BackHeading(title: 'change_password'),
+              content: AnimatedPadding(
+                duration: Duration(milliseconds: 300),
+                padding: EdgeInsets.only(right: sidebarPadding),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -74,7 +109,7 @@ class _ChangePasswordState extends State<ChangePasswordPage> {
                               vertical: 10,
                             ),
                             child: TextFormField(
-                              controller: passwordController,
+                              controller: oldPasswordController,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               decoration: utils.getTextFieldDecoration(
@@ -84,7 +119,7 @@ class _ChangePasswordState extends State<ChangePasswordPage> {
                                   errorText: AppLocalizations.of(context)
                                       .translate('required_password')),
                               style: new TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                               obscureText: true,
                             ),
@@ -94,7 +129,7 @@ class _ChangePasswordState extends State<ChangePasswordPage> {
                               horizontal: 20,
                             ),
                             child: TextFormField(
-                              controller: passwordController,
+                              controller: newPasswordController,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               decoration: utils.getTextFieldDecoration(
@@ -110,7 +145,7 @@ class _ChangePasswordState extends State<ChangePasswordPage> {
                                             'password_least_characters')),
                               ]),
                               style: new TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                               obscureText: true,
                             ),
@@ -130,9 +165,10 @@ class _ChangePasswordState extends State<ChangePasswordPage> {
                               validator: (val) => MatchValidator(
                                       errorText: AppLocalizations.of(context)
                                           .translate('password_dont_match'))
-                                  .validateMatch(val, passwordController.text),
+                                  .validateMatch(
+                                      val, newPasswordController.text),
                               style: new TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                               ),
                               obscureText: true,
                             ),
@@ -170,10 +206,8 @@ class _ChangePasswordState extends State<ChangePasswordPage> {
                   ],
                 ),
               ),
-            ),
-          ),
-        ],
-      ),
+            );
+          }),
     );
   }
 }

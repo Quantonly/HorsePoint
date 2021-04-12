@@ -13,7 +13,6 @@ class UserService {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await users.doc(uid).set({
       'displayName': displayName,
-      'email': email,
       'photoUrl': photoUrl,
       'settings': {
         'language': prefs.getString('language'),
@@ -21,6 +20,10 @@ class UserService {
         'notifications': true
       }
     });
+  }
+
+  Future<void> deleteUserData() async {
+    return await users.doc(uid).delete();
   }
 
   Future<void> setSettings(

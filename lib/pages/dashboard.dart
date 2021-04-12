@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:horse_point/services/navigator_pages.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -15,10 +14,12 @@ import 'package:horse_point/pages/sections/my_horses.dart';
 import 'package:horse_point/pages/sections/add_horse.dart';
 import 'package:horse_point/pages/settings/settings.dart';
 
+import 'package:horse_point/services/navigator_pages.dart';
 import 'package:horse_point/services/authentication.dart';
 import 'package:horse_point/services/app_localizations.dart';
 import 'package:horse_point/services/user.dart';
 
+import 'package:horse_point/models/menu.dart';
 import 'package:horse_point/widgets/menu_item.dart';
 import 'package:horse_point/utils.dart' as utils;
 
@@ -30,17 +31,11 @@ class DashboardPage extends StatefulWidget {
 class _DashboardState extends State<DashboardPage> {
   StreamController<double> controller = StreamController<double>.broadcast();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final List<String> menuItems = [
-    'home',
-    'my_horses',
-    'add_new_horse',
-    'settings'
-  ];
-  final List<IconData> menuIcons = [
-    CupertinoIcons.home,
-    CupertinoIcons.photo,
-    CupertinoIcons.add_circled_solid,
-    CupertinoIcons.settings
+  final List<Menu> menuItems = [
+    new Menu("home", CupertinoIcons.home),
+    new Menu("my_horses", CupertinoIcons.photo),
+    new Menu("add_new_horse", CupertinoIcons.add_circled_solid),
+    new Menu("settings", CupertinoIcons.settings),
   ];
   var settings;
 
@@ -55,7 +50,7 @@ class _DashboardState extends State<DashboardPage> {
   double yProfileOffset = 0;
   double profileScale = 1;
   double pageScale = 1;
-  double buttonsOffset = -100;
+  double buttonsOffset = -75;
 
   void setSidebarState() {
     setState(() {
@@ -65,45 +60,11 @@ class _DashboardState extends State<DashboardPage> {
       xProfileOffset = sidebarOpen ? 90 : 0;
       yProfileOffset = sidebarOpen ? -25 : 0;
       profileScale = sidebarOpen ? 1.5 : 1;
-      buttonsOffset = sidebarOpen ? -20 : -100;
+      buttonsOffset = sidebarOpen ? 0 : -75;
       sidebarOffset = sidebarOffset;
     });
     controller.add(sidebarOffset);
     utils.sidebarOffset = sidebarOffset;
-  }
-
-  Future<void> _showSignOutDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context).translate('sign_out')),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(AppLocalizations.of(context).translate('sure_sign_out')),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text(AppLocalizations.of(context).translate('no')),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text(AppLocalizations.of(context).translate('yes')),
-              onPressed: () {
-                Navigator.of(context).pop();
-                context.read<AuthenticationService>().signOut();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   void swipeAnimation(details) {
@@ -150,9 +111,11 @@ class _DashboardState extends State<DashboardPage> {
           describeEnum(element) == settings.name.split('/')[length])];
     } else
       page = HomePage();
-    if (menuItems.indexOf(settings.name.substring(1)) > -1) durationMilisec = 0;
+    int index = menuItems
+        .indexWhere((element) => element.name == settings.name.substring(1));
+    if (index > -1) durationMilisec = 0;
     return PageTransition(
-      settings: RouteSettings().arguments,
+        settings: RouteSettings().arguments,
         type: PageTransitionType.rightToLeft,
         duration: Duration(milliseconds: durationMilisec),
         reverseDuration: Duration(milliseconds: durationMilisec),
@@ -218,6 +181,7 @@ class _DashboardState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     final navigatorKey = GlobalObjectKey<NavigatorState>(context);
+    utils.mainContext = context;
     return WillPopScope(
       onWillPop: () async {
         if (navigatorKey.currentState.canPop()) navigatorKey.currentState.pop();
@@ -278,19 +242,21 @@ class _DashboardState extends State<DashboardPage> {
                       height: 10,
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                right: MediaQuery.of(context).size.width - 265),
-                            child: AnimatedOpacity(
-                              opacity: sidebarOpen ? 1.0 : 0.0,
-                              duration: Duration(milliseconds: 200),
-                              child: Text(
-                                _firebaseAuth.currentUser.displayName,
-                                style: TextStyle(
-                                  color: Colors.white,
+                          width: MediaQuery.of(context).size.width - 146,
+                          child: AnimatedOpacity(
+                            opacity: sidebarOpen ? 1.0 : 0.0,
+                            duration: Duration(milliseconds: 200),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: Center(
+                                child: Text(
+                                  _firebaseAuth.currentUser.displayName,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -299,19 +265,21 @@ class _DashboardState extends State<DashboardPage> {
                       ],
                     ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                right: MediaQuery.of(context).size.width - 265),
-                            child: AnimatedOpacity(
-                              opacity: sidebarOpen ? 1.0 : 0.0,
-                              duration: Duration(milliseconds: 200),
-                              child: Text(
-                                _firebaseAuth.currentUser.email,
-                                style: TextStyle(
-                                  color: Colors.white,
+                          width: MediaQuery.of(context).size.width - 146,
+                          child: AnimatedOpacity(
+                            opacity: sidebarOpen ? 1.0 : 0.0,
+                            duration: Duration(milliseconds: 200),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              child: Center(
+                                child: Text(
+                                  _firebaseAuth.currentUser.email,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -319,60 +287,45 @@ class _DashboardState extends State<DashboardPage> {
                         ),
                       ],
                     ),
-                    Container(
-                      child: Expanded(
-                        child: AnimatedContainer(
-                          curve: Curves.easeInOut,
-                          duration: Duration(milliseconds: 200),
-                          transform: Matrix4.translationValues(
-                              0.0, buttonsOffset, 1.0),
-                          child: new ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: menuItems.length,
-                            itemBuilder: (context, index) => GestureDetector(
-                              onTap: () {
-                                if (menuItems[index] != currentRoute) {
-                                  sidebarOpen = false;
-                                  selectedMenuItem = index;
-                                  navigatorKey.currentState
-                                      .pushNamedAndRemoveUntil(
-                                          "/" + menuItems[index],
-                                          ModalRoute.withName('/'));
-                                  currentRoute = menuItems[index];
-                                  setSidebarState();
-                                } else if (navigatorKey.currentState.canPop()) {
-                                  navigatorKey.currentState
-                                      .pushNamedAndRemoveUntil(
-                                          "/" + menuItems[index],
-                                          ModalRoute.withName('/'));
-                                }
-                              },
-                              child: MenuItem(
-                                itemIcon: menuIcons[index],
-                                itemText: AppLocalizations.of(context)
-                                    .translate(menuItems[index]),
-                                selected: selectedMenuItem,
-                                position: index,
-                              ),
+                    Expanded(
+                      child: AnimatedContainer(
+                        curve: Curves.easeInOut,
+                        duration: Duration(milliseconds: 200),
+                        transform: Matrix4.translationValues(
+                            0.0, buttonsOffset, 1.0),
+                        child: new ListView.builder(
+                          padding: EdgeInsets.only(top: 25),
+                          physics: BouncingScrollPhysics(),
+                          itemCount: menuItems.length,
+                          itemBuilder: (context, index) => GestureDetector(
+                            onTap: () {
+                              if (menuItems[index].name != currentRoute) {
+                                sidebarOpen = false;
+                                selectedMenuItem = index;
+                                navigatorKey.currentState
+                                    .pushNamedAndRemoveUntil(
+                                        "/" + menuItems[index].name,
+                                        ModalRoute.withName('/'));
+                                currentRoute = menuItems[index].name;
+                                setSidebarState();
+                              } else if (navigatorKey.currentState.canPop()) {
+                                navigatorKey.currentState
+                                    .pushNamedAndRemoveUntil(
+                                        "/" + menuItems[index].name,
+                                        ModalRoute.withName('/'));
+                              }
+                            },
+                            child: MenuItem(
+                              itemIcon: menuItems[index].icon,
+                              itemText: AppLocalizations.of(context)
+                                  .translate(menuItems[index].name),
+                              selected: selectedMenuItem,
+                              position: index,
                             ),
                           ),
                         ),
                       ),
                     ),
-                    Container(
-                      child: GestureDetector(
-                        onTap: () {
-                          _showSignOutDialog();
-                        },
-                        child: MenuItem(
-                          itemIcon: CupertinoIcons.square_arrow_left,
-                          itemText: AppLocalizations.of(context)
-                              .translate('sign_out'),
-                          selected: selectedMenuItem,
-                          position: menuItems.length + 1,
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),
